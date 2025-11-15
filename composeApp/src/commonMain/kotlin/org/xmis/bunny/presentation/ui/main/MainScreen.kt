@@ -29,6 +29,7 @@ import bunny.composeapp.generated.resources.Res
 import bunny.composeapp.generated.resources.chest
 import bunny.composeapp.generated.resources.dverkluchiki
 import bunny.composeapp.generated.resources.failikidver
+import bunny.composeapp.generated.resources.showpassword
 import bunny.composeapp.generated.resources.svitok
 import bunny.composeapp.generated.resources.zaychik
 import org.jetbrains.compose.resources.painterResource
@@ -59,16 +60,24 @@ fun MainScreen(navContoller: NavController,
                         viewModel.savePassword(data)
                         showDialog = false },
                 )
+                Image(
+                    painter = painterResource(Res.drawable.showpassword),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(250.dp)
+                        .height(250.dp)
+                )
+            }
+            else -> {
+                Image(
+                    painter = painterResource(Res.drawable.zaychik),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(250.dp)
+                        .height(250.dp)
+                )
             }
         }
-
-        Image(
-            painter = painterResource(Res.drawable.zaychik),
-            contentDescription = null,
-            modifier = Modifier
-                .width(250.dp)
-                .height(250.dp)
-        )
         Text(text = "ЗАЙЧИК", fontSize = 32.sp)
 
         Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
