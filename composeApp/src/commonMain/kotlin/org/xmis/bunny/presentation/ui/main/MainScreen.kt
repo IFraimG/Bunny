@@ -14,11 +14,16 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import bunny.composeapp.generated.resources.Res
 import bunny.composeapp.generated.resources.chest
@@ -29,10 +34,15 @@ import bunny.composeapp.generated.resources.zaychik
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.xmis.bunny.presentation.navigation.Destinations
+import org.xmis.bunny.presentation.ui.main.components.AppendPasswordDialog
 
 @Composable
 @Preview
-fun MainScreen(navContoller: NavController) {
+fun MainScreen(navContoller: NavController,
+               viewModel: MainViewModel = viewModel { MainViewModel() }
+) {
+    var showDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primaryContainer)
@@ -41,6 +51,17 @@ fun MainScreen(navContoller: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
+        when {
+            showDialog -> {
+                AppendPasswordDialog(
+                    onDismissRequest = { showDialog = false },
+                    onConfirmation = { data ->
+                        viewModel.savePassword(data)
+                        showDialog = false },
+                )
+            }
+        }
+
         Image(
             painter = painterResource(Res.drawable.zaychik),
             contentDescription = null,
@@ -55,6 +76,9 @@ fun MainScreen(navContoller: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.clickable {
+                    if (!showDialog) {
+                        showDialog = true
+                    }
                 }) {
                 Image(
                     painter = painterResource(Res.drawable.chest),
@@ -69,6 +93,9 @@ fun MainScreen(navContoller: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.clickable {
+                    if (!showDialog) {
+
+                    }
                 }) {
                 Image(
                     painter = painterResource(Res.drawable.svitok),
@@ -85,6 +112,9 @@ fun MainScreen(navContoller: NavController) {
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.clickable {
+                    if (!showDialog) {
+
+                    }
                 }) {
                 Image(painter = painterResource(Res.drawable.dverkluchiki),
                     contentDescription = null,
@@ -97,7 +127,9 @@ fun MainScreen(navContoller: NavController) {
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.clickable {
-                    navContoller.navigate(Destinations.OPEN_PASSWORDS)
+                    if (!showDialog) {
+                        navContoller.navigate(Destinations.OPEN_PASSWORDS)
+                    }
                 }) {
                 Image(painter = painterResource(Res.drawable.failikidver),
                     contentDescription = null,
