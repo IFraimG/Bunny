@@ -4,9 +4,6 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import org.xmis.bunny.data.storages.dao.PasswordDao
 import org.xmis.bunny.data.storages.entities.PasswordEntity
 
@@ -19,13 +16,4 @@ abstract class PasswordDatabase : RoomDatabase() {
 @Suppress("KotlinNoActualForExpect")
 expect object PasswordDatabaseConstructor : RoomDatabaseConstructor<PasswordDatabase> {
     override fun initialize(): PasswordDatabase
-}
-
-fun getRoomDatabase(
-    builder: RoomDatabase.Builder<PasswordDatabase>
-): PasswordDatabase {
-    return builder
-        .setDriver(BundledSQLiteDriver())
-        .setQueryCoroutineContext(Dispatchers.IO)
-        .build()
 }

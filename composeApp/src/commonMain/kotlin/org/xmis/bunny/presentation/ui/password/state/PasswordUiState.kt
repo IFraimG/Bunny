@@ -1,4 +1,7 @@
 package org.xmis.bunny.presentation.ui.password.state
 
-class PasswordUiState {
-}
+import org.xmis.bunny.data.storages.entities.PasswordEntity
+
+data class PasswordUiState(
+    val passwordsList: List<PasswordEntity> = mutableListOf()
+)

@@ -15,11 +15,11 @@ interface PasswordDao {
     suspend fun count(): Int
 
     @Query("SELECT * FROM PasswordEntity")
-    fun getAllAsFlow(): Flow<List<PasswordEntity>>
+    fun getPasswords(): Flow<List<PasswordEntity>>
 
     @Query("DELETE FROM PasswordEntity WHERE password = :password AND title = :title")
-    fun deletePassword(title: String, password: String): Unit
+    fun deletePassword(title: String, password: String)
 
     @Query("DELETE FROM PasswordEntity")
-    suspend fun destroy(): Unit
+    suspend fun destroy()
 }

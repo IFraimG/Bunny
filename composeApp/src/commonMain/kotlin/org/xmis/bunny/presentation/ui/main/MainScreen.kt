@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,14 +35,18 @@ import bunny.composeapp.generated.resources.svitok
 import bunny.composeapp.generated.resources.zaychik
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.xmis.bunny.presentation.navigation.Destinations
 import org.xmis.bunny.presentation.ui.main.components.AppendPasswordDialog
+import org.xmis.bunny.presentation.ui.password.PasswordViewModel
 
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 @Preview
-fun MainScreen(navContoller: NavController,
-               viewModel: MainViewModel = viewModel { MainViewModel() }
-) {
+fun MainScreen(navController: NavController) {
+    val viewModel = koinViewModel<PasswordViewModel>()
+
     var showDialog by remember { mutableStateOf(false) }
 
     Column(
@@ -57,7 +62,7 @@ fun MainScreen(navContoller: NavController,
                 AppendPasswordDialog(
                     onDismissRequest = { showDialog = false },
                     onConfirmation = { data ->
-                        viewModel.savePassword(data)
+                        viewModel.insertPassword(data)
                         showDialog = false },
                 )
                 Image(
@@ -137,7 +142,7 @@ fun MainScreen(navContoller: NavController,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.clickable {
                     if (!showDialog) {
-                        navContoller.navigate(Destinations.OPEN_PASSWORDS)
+                        navController.navigate(Destinations.OPEN_PASSWORDS)
                     }
                 }) {
                 Image(painter = painterResource(Res.drawable.failikidver),

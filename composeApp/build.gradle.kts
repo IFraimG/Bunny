@@ -31,13 +31,18 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            // default
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            // tink
             implementation("com.google.crypto.tink:tink-android:1.19.0")
 
+            // sqllite
             implementation(libs.androidx.room.sqlite.wrapper)
         }
         commonMain.dependencies {
+            // default
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -47,16 +52,23 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
+            // koin
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.1.0"))
+            implementation("io.insert-koin:koin-androidx-compose:4.1.0")
             implementation(libs.koin.core)
 
+            // navigation compose
             implementation(libs.navigation.compose)
+
+            // datastore
             implementation("androidx.datastore:datastore-preferences:1.1.7")
             implementation("androidx.datastore:datastore:1.1.7")
 
+            // room, sqllite
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
 
+            // sqlcipher
             implementation("net.zetetic:sqlcipher-android:4.11.0")
         }
         commonTest.dependencies {
