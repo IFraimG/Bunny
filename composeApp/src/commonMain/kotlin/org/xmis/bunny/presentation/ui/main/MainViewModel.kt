@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.ui.main.state.MainUiState
 
-class MainViewModel: ViewModel() {
+class MainViewModel(
+
+): ViewModel() {
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
