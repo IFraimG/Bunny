@@ -9,6 +9,7 @@ import org.xmis.bunny.data.repositories.password.PasswordRepository
 import org.xmis.bunny.data.repositories.password.PasswordRepositoryImpl
 import org.xmis.bunny.data.storages.sources.PasswordDataSource
 import org.xmis.bunny.data.storages.sources.PasswordDataSourceImpl
+import org.xmis.bunny.domain.usecase.password.DeletePasswordUseCase
 import org.xmis.bunny.domain.usecase.password.GetPasswordsUseCase
 import org.xmis.bunny.domain.usecase.password.InsertPasswordUseCase
 import org.xmis.bunny.getPlatform
@@ -20,6 +21,7 @@ val passwordModule = module {
     singleOf(::PasswordRepositoryImpl) { bind<PasswordRepository>() }
 
     // use-cases
+    singleOf(::DeletePasswordUseCase)
     singleOf(::InsertPasswordUseCase)
     singleOf(::GetPasswordsUseCase)
 

@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.xmis.bunny.data.storages.entities.PasswordEntity
+import org.xmis.bunny.domain.usecase.password.DeletePasswordUseCase
 import org.xmis.bunny.domain.usecase.password.GetPasswordsUseCase
 import org.xmis.bunny.domain.usecase.password.InsertPasswordUseCase
 import org.xmis.bunny.presentation.models.PasswordData
@@ -20,6 +22,7 @@ class PasswordViewModel: ViewModel(), KoinComponent {
 
     private val insertPasswordUseCase: InsertPasswordUseCase by inject()
     private val getPasswordsUseCase: GetPasswordsUseCase by inject()
+    private val deletePasswordUseCase: DeletePasswordUseCase by inject()
 
     fun insertPassword(passwordData: PasswordData) = viewModelScope.launch {
         try {
@@ -37,6 +40,14 @@ class PasswordViewModel: ViewModel(), KoinComponent {
                 }
             }
 
+        } catch (err: Exception) {
+            err.printStackTrace()
+        }
+    }
+
+    fun deletePassword(passwordData: PasswordEntity) = viewModelScope.launch {
+        try {
+            deletePasswordUseCase.execute(passwordData)
         } catch (err: Exception) {
             err.printStackTrace()
         }

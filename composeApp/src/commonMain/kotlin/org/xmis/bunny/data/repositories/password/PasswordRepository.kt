@@ -8,4 +8,6 @@ interface PasswordRepository {
     suspend fun insertPassword(passwordData: PasswordData)
 
     suspend fun getPasswords(): Flow<List<PasswordEntity>>
+
+    suspend fun deletePassword(item: PasswordEntity)
 }

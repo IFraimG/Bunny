@@ -19,8 +19,8 @@ class PasswordDataSourceImpl(private val passwordDatabase: PasswordDatabase): Pa
 
     override suspend fun count(): Int = passwordDatabase.getDao().count()
 
-    override suspend fun deletePassword(title: String, password: String) {
-        passwordDatabase.getDao().deletePassword(title, password)
+    override suspend fun deletePassword(item: PasswordEntity) {
+        passwordDatabase.getDao().deletePassword(item.id)
     }
 
     override suspend fun destroy() {

@@ -11,7 +11,7 @@ interface PasswordDataSource {
 
     suspend fun getPasswords(): Flow<List<PasswordEntity>>
 
-    suspend fun deletePassword(title: String, password: String)
+    suspend fun deletePassword(item: PasswordEntity)
 
     suspend fun destroy()
 }

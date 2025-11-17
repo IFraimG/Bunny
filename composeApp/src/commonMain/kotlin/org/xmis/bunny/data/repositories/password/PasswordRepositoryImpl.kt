@@ -16,4 +16,8 @@ class PasswordRepositoryImpl(
     override suspend fun getPasswords(): Flow<List<PasswordEntity>> {
         return source.getPasswords()
     }
+
+    override suspend fun deletePassword(item: PasswordEntity) {
+        return source.deletePassword(item)
+    }
 }

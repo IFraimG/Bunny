@@ -17,8 +17,8 @@ interface PasswordDao {
     @Query("SELECT * FROM PasswordEntity")
     fun getPasswords(): Flow<List<PasswordEntity>>
 
-    @Query("DELETE FROM PasswordEntity WHERE password = :password AND title = :title")
-    fun deletePassword(title: String, password: String)
+    @Query("DELETE FROM PasswordEntity WHERE id = :id")
+    suspend fun deletePassword(id: Long)
 
     @Query("DELETE FROM PasswordEntity")
     suspend fun destroy()
