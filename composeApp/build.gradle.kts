@@ -72,6 +72,7 @@ kotlin {
 
             // sqlcipher
             implementation("net.zetetic:sqlcipher-android:4.11.0")
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
