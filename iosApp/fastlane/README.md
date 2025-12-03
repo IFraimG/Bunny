@@ -23,10 +23,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Description of what the lane does
 
-### ios tests
+### ios test
 
 ```sh
-[bundle exec] fastlane ios tests
+[bundle exec] fastlane ios test
 ```
 
 Runs all the tests
