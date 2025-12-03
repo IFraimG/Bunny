@@ -33,13 +33,19 @@ import bunny.composeapp.generated.resources.failikidver
 import bunny.composeapp.generated.resources.showpassword
 import bunny.composeapp.generated.resources.svitok
 import bunny.composeapp.generated.resources.zaychik
+import okio.ByteString.Companion.toByteString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.core.logger.Level
+import org.koin.core.logger.Logger
+import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.navigation.Destinations
 import org.xmis.bunny.presentation.ui.main.components.AppendPasswordDialog
 import org.xmis.bunny.presentation.ui.password.PasswordViewModel
+import xmis.bunny.AppLogger.AppLogger
+import xmis.bunny.krypto.Krypto
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
@@ -48,6 +54,10 @@ fun MainScreen(navController: NavController) {
     val viewModel = koinViewModel<PasswordViewModel>()
 
     var showDialog by remember { mutableStateOf(false) }
+
+    fun insertPassword(passwordData: PasswordData) {
+        viewModel.insertPassword(passwordData)
+    }
 
     Column(
         modifier = Modifier
@@ -62,7 +72,7 @@ fun MainScreen(navController: NavController) {
                 AppendPasswordDialog(
                     onDismissRequest = { showDialog = false },
                     onConfirmation = { data ->
-                        viewModel.insertPassword(data)
+                        insertPassword(data)
                         showDialog = false },
                 )
                 Image(

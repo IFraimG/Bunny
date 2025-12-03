@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,8 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.logger.Logger
-import org.xmis.bunny.data.storages.entities.PasswordEntity
+import org.xmis.bunny.presentation.models.PasswordExtended
 import org.xmis.bunny.presentation.ui.password.components.PasswordItem
 import org.xmis.bunny.presentation.ui.password.components.TableHeader
 
@@ -37,10 +37,14 @@ fun PasswordScreen() {
     viewModel.getAllPasswords()
 
     fun deleteItem(passwordID: Long) {
-        val passwordItem: PasswordEntity? = uiState.passwordsList.find { item -> item.id == passwordID }
+        val passwordItem: PasswordExtended? = uiState.passwordsList.find { item -> item.id == passwordID }
         if (passwordItem != null) {
             viewModel.deletePassword(passwordItem)
         }
+    }
+
+    fun showItem(passwordID: Long): String {
+        return viewModel.showPassword(passwordID)
     }
 
     Column(
@@ -55,7 +59,8 @@ fun PasswordScreen() {
                 PasswordItem(passwordData = item,
                     deleteItem = { passwordID ->
                         deleteItem(passwordID = passwordID)
-                    })
+                    },
+                    showItem = { passwordID -> showItem(passwordID) })
             }
         }
 

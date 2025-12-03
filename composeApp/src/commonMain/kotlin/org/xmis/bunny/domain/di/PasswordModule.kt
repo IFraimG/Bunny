@@ -14,6 +14,7 @@ import org.xmis.bunny.domain.usecase.password.GetPasswordsUseCase
 import org.xmis.bunny.domain.usecase.password.InsertPasswordUseCase
 import org.xmis.bunny.getPlatform
 import org.xmis.bunny.presentation.ui.password.PasswordViewModel
+import xmis.bunny.krypto.Krypto
 
 val passwordModule = module {
     singleOf(::PasswordDataSourceImpl).bind(PasswordDataSource::class)
@@ -26,5 +27,7 @@ val passwordModule = module {
     singleOf(::GetPasswordsUseCase)
 
     viewModelOf(::PasswordViewModel)
+
+    factory { Krypto }
     factory { getPlatform(this) }
 }
