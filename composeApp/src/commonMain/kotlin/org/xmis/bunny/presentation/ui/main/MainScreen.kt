@@ -33,6 +33,7 @@ import bunny.composeapp.generated.resources.failikidver
 import bunny.composeapp.generated.resources.showpassword
 import bunny.composeapp.generated.resources.svitok
 import bunny.composeapp.generated.resources.zaychik
+import okio.ByteString.Companion.toByteString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -44,6 +45,7 @@ import org.xmis.bunny.presentation.navigation.Destinations
 import org.xmis.bunny.presentation.ui.main.components.AppendPasswordDialog
 import org.xmis.bunny.presentation.ui.password.PasswordViewModel
 import xmis.bunny.AppLogger.AppLogger
+import xmis.bunny.krypto.Krypto
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
@@ -54,10 +56,6 @@ fun MainScreen(navController: NavController) {
     var showDialog by remember { mutableStateOf(false) }
 
     fun insertPassword(passwordData: PasswordData) {
-        AppLogger.i("msg", passwordData.toString())
-        AppLogger.i("msg", passwordData.toString())
-        AppLogger.i("msg", passwordData.toString())
-
         viewModel.insertPassword(passwordData)
     }
 

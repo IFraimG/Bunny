@@ -27,25 +27,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.xmis.bunny.data.storages.entities.PasswordEntity
+import org.xmis.bunny.presentation.models.PasswordExtended
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
 fun PasswordItem(
-    passwordData: PasswordEntity,
-    deleteItem: (passwordID: Long) -> Unit
+    passwordData: PasswordExtended,
+    deleteItem: (passwordID: Long) -> Unit,
+    showItem: (passwordID: Long) -> String
 ) {
     val isShowPassword = remember { mutableStateOf(false) }
     val hidePasswordTemplate = (List(passwordData.password.length) { '*' }).joinToString(separator = "")
-
+    val isDecrypted = remember { mutableStateOf(false) }
     val hidePassword = remember { mutableStateOf(hidePasswordTemplate) }
 
     fun changeShowPassword() {
-        isShowPassword.value = !isShowPassword.value
-
-        if (isShowPassword.value) hidePassword.value = passwordData.password
-        else hidePassword.value = hidePasswordTemplate
+       if (!isShowPassword.value) {
+           if (!isDecrypted.value) {
+               val password: String = showItem(passwordData.id)
+               hidePassword.value = password
+               isDecrypted.value = true
+           } else {
+               hidePassword.value = passwordData.password
+           }
+           isShowPassword.value = true
+       } else {
+           isShowPassword.value = false
+           hidePassword.value = hidePasswordTemplate
+       }
     }
 
     Card(
@@ -65,9 +75,8 @@ fun PasswordItem(
                     .width(80.dp))
             Text(text = hidePassword.value,
                 modifier = Modifier
-
                     .width(80.dp))
-            Text("description",
+            Text(text = passwordData.description ?: "",
                 modifier = Modifier
                     .width(80.dp))
             Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
