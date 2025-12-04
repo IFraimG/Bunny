@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.xmis.bunny.presentation.models.PasswordExtended
+import xmis.bunny.AppLogger.AppLogger
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -39,22 +40,17 @@ fun PasswordItem(
 ) {
     val isShowPassword = remember { mutableStateOf(false) }
     val hidePasswordTemplate = (List(passwordData.password.length) { '*' }).joinToString(separator = "")
-    val isDecrypted = remember { mutableStateOf(false) }
-    val hidePassword = remember { mutableStateOf(hidePasswordTemplate) }
+    val decryptedPassword = remember { mutableStateOf<String?>(null) }
+
 
     fun changeShowPassword() {
        if (!isShowPassword.value) {
-           if (!isDecrypted.value) {
-               val password: String = showItem(passwordData.id)
-               hidePassword.value = password
-               isDecrypted.value = true
-           } else {
-               hidePassword.value = passwordData.password
+           if (decryptedPassword.value == null) {
+               decryptedPassword.value = showItem(passwordData.id)
            }
            isShowPassword.value = true
        } else {
            isShowPassword.value = false
-           hidePassword.value = hidePasswordTemplate
        }
     }
 
@@ -73,9 +69,15 @@ fun PasswordItem(
             Text(text = passwordData.title,
                 modifier = Modifier
                     .width(80.dp))
-            Text(text = hidePassword.value,
-                modifier = Modifier
-                    .width(80.dp))
+            if (isShowPassword.value) {
+                Text(text = decryptedPassword.value ?: passwordData.password,
+                    modifier = Modifier
+                        .width(80.dp))
+            } else {
+                Text(text = hidePasswordTemplate,
+                    modifier = Modifier
+                        .width(80.dp))
+            }
             Text(text = passwordData.description ?: "",
                 modifier = Modifier
                     .width(80.dp))
