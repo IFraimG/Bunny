@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import org.xmis.bunny.presentation.ui.main.MainScreen
-import org.xmis.bunny.presentation.ui.password.PasswordScreen
+import org.xmis.bunny.presentation.ui.password.PasswordRoute
 
 
 @Composable
@@ -25,7 +25,7 @@ fun MainNavHost(
         startDestination = startDestination
     ){
         composable(Destinations.MAIN_ROUTE) { MainScreen(navController) }
-        composable(Destinations.OPEN_PASSWORDS) { PasswordScreen() }
+        composable(Destinations.OPEN_PASSWORDS) { PasswordRoute() }
     }
 }
 

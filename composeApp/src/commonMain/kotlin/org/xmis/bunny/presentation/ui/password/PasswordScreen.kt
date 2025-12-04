@@ -26,27 +26,16 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.xmis.bunny.presentation.models.PasswordExtended
 import org.xmis.bunny.presentation.ui.password.components.PasswordItem
 import org.xmis.bunny.presentation.ui.password.components.TableHeader
+import org.xmis.bunny.presentation.ui.password.state.PasswordListener
+import org.xmis.bunny.presentation.ui.password.state.PasswordUiState
 
 
 @Composable
 @Preview
-fun PasswordScreen() {
-    val viewModel = koinViewModel<PasswordViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    viewModel.getAllPasswords()
-
-    fun deleteItem(passwordID: Long) {
-        val passwordItem: PasswordExtended? = uiState.passwordsList.find { item -> item.id == passwordID }
-        if (passwordItem != null) {
-            viewModel.deletePassword(passwordItem)
-        }
-    }
-
-    fun showItem(passwordID: Long): String {
-        return viewModel.showPassword(passwordID)
-    }
-
+fun PasswordScreen(
+    uiState: PasswordUiState,
+    actions: PasswordListener
+) {
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primaryContainer)
@@ -57,10 +46,8 @@ fun PasswordScreen() {
         LazyColumn {
             items(uiState.passwordsList) { item ->
                 PasswordItem(passwordData = item,
-                    deleteItem = { passwordID ->
-                        deleteItem(passwordID = passwordID)
-                    },
-                    showItem = { passwordID -> showItem(passwordID) })
+                    deleteItem = actions::deleteItem,
+                    showItem = actions::showItem)
             }
         }
 
