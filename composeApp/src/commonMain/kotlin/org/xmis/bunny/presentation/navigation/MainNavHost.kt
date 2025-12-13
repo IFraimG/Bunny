@@ -8,7 +8,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import org.xmis.bunny.presentation.ui.files.FileListRoute
 import org.xmis.bunny.presentation.ui.main.MainScreen
+import org.xmis.bunny.presentation.ui.main.MainScreenRoute
 import org.xmis.bunny.presentation.ui.password.PasswordRoute
 
 
@@ -24,8 +26,9 @@ fun MainNavHost(
         navController = navController,
         startDestination = startDestination
     ){
-        composable(Destinations.MAIN_ROUTE) { MainScreen(navController) }
+        composable(Destinations.MAIN_ROUTE) { MainScreenRoute(navController) }
         composable(Destinations.OPEN_PASSWORDS) { PasswordRoute() }
+        composable(Destinations.WATCH_FILES) { FileListRoute() }
     }
 }
 

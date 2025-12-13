@@ -16,7 +16,6 @@ import org.xmis.bunny.domain.usecase.password.InsertPasswordUseCase
 import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.models.PasswordExtended
 import org.xmis.bunny.presentation.ui.password.state.PasswordUiState
-import xmis.bunny.AppLogger.AppLogger
 import xmis.bunny.krypto.Krypto
 import xmis.bunny.krypto.decrypt
 
