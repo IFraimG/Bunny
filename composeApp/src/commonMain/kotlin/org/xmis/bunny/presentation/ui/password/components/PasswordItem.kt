@@ -21,13 +21,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.models.PasswordExtended
+import org.xmis.bunny.presentation.ui.main.components.AppendPasswordDialog
 import xmis.bunny.AppLogger.AppLogger
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -36,12 +40,14 @@ import xmis.bunny.AppLogger.AppLogger
 fun PasswordItem(
     passwordData: PasswordExtended,
     deleteItem: (passwordID: Long) -> Unit,
-    showItem: (passwordID: Long) -> String
+    showItem: (passwordID: Long) -> String,
+    changeItem: (password: PasswordExtended) -> Unit
 ) {
     val isShowPassword = remember { mutableStateOf(false) }
     val hidePasswordTemplate = (List(passwordData.password.length) { '*' }).joinToString(separator = "")
     val decryptedPassword = remember { mutableStateOf<String?>(null) }
 
+    var showDialog by remember { mutableStateOf(false) }
 
     fun changeShowPassword() {
        if (!isShowPassword.value) {
@@ -52,6 +58,23 @@ fun PasswordItem(
        } else {
            isShowPassword.value = false
        }
+    }
+
+    if (showDialog) {
+        AppendPasswordDialog(
+            onDismissRequest = { showDialog = false },
+            onConfirmation = { data ->
+                changeItem(passwordData.copy(
+                    id = passwordData.id,
+                    title = data.title,
+                    password = data.password,
+                    description = data.description
+                ))
+                showDialog = false },
+            sourceData = PasswordData(title = passwordData.title,
+                password = "",
+                description = passwordData.description)
+        )
     }
 
     Card(
@@ -102,7 +125,9 @@ fun PasswordItem(
                         modifier = Modifier.size(32.dp)
                     )
                 }
-                FloatingActionButton(onClick = {},
+                FloatingActionButton(onClick = {
+                    showDialog = true
+                },
                     modifier = Modifier
                         .size(48.dp)) {
                     Icon(

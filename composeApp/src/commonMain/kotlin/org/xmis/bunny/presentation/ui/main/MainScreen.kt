@@ -80,7 +80,7 @@ fun MainScreen(navController: NavController,
                     onDismissRequest = { showDialog = false },
                     onConfirmation = { data ->
                         insertPassword(data)
-                        showDialog = false },
+                        showDialog = false }
                 )
                 Image(
                     painter = painterResource(Res.drawable.showpassword),

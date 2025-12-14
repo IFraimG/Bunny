@@ -47,7 +47,8 @@ fun PasswordScreen(
             items(uiState.passwordsList) { item ->
                 PasswordItem(passwordData = item,
                     deleteItem = actions::deleteItem,
-                    showItem = actions::showItem)
+                    showItem = actions::showItem,
+                    changeItem = actions::changeItem)
             }
         }
 

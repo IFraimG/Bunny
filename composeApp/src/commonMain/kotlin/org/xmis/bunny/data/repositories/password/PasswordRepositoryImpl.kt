@@ -5,6 +5,7 @@ import org.xmis.bunny.data.storages.databases.PasswordDatabase
 import org.xmis.bunny.data.storages.entities.PasswordEntity
 import org.xmis.bunny.data.storages.sources.PasswordDataSource
 import org.xmis.bunny.presentation.models.PasswordData
+import org.xmis.bunny.presentation.models.PasswordExtended
 
 class PasswordRepositoryImpl(
     private val source: PasswordDataSource
@@ -19,5 +20,9 @@ class PasswordRepositoryImpl(
 
     override suspend fun deletePassword(item: PasswordEntity) {
         return source.deletePassword(item)
+    }
+
+    override suspend fun updatePassword(item: PasswordExtended) {
+        return source.updatePassword(item)
     }
 }

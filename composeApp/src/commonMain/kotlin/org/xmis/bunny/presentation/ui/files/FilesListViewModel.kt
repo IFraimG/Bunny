@@ -33,6 +33,7 @@ class FilesListViewModel(
         _uiState.update {
             it.copy(filesList = listFileItems)
         }
+
 //        AppLogger.i("msg", files.size.toString())
 //        AppLogger.i("msg", files[0].toString())
 //        AppLogger.i("msg", files[0].toString())

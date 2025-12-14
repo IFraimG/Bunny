@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.xmis.bunny.data.storages.entities.PasswordEntity
+import org.xmis.bunny.presentation.models.PasswordExtended
 
 @Dao
 interface PasswordDao {
@@ -22,4 +23,7 @@ interface PasswordDao {
 
     @Query("DELETE FROM PasswordEntity")
     suspend fun destroy()
+
+    @Query("UPDATE PasswordEntity SET password = :password, title = :title, description = :description WHERE id = :id")
+    suspend fun updatePassword(password: String, title: String, description: String? = "", id: Long)
 }

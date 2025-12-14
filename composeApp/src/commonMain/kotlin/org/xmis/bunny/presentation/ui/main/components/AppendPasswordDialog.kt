@@ -33,10 +33,12 @@ import org.xmis.bunny.presentation.models.PasswordData
 fun AppendPasswordDialog(
     onConfirmation: (data: PasswordData) -> Unit,
     onDismissRequest: () -> Unit,
+    sourceData: PasswordData? = null
 ) {
-    val textTitle = remember { mutableStateOf("") }
-    val textPassword = remember { mutableStateOf("") }
-    val textDescription = remember { mutableStateOf("") }
+    val textTitle = remember { mutableStateOf(sourceData?.title ?: "") }
+    val textPassword = remember { mutableStateOf(sourceData?.password ?: "") }
+    val textDescription = remember { mutableStateOf(sourceData?.description ?: "") }
+
     var showPassword by remember { mutableStateOf(false) }
 
     AlertDialog(

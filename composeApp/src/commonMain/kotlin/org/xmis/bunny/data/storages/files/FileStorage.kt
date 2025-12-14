@@ -1,7 +1,6 @@
 package org.xmis.bunny.data.storages.files
 
 import org.xmis.bunny.files.PlatformFile
-import org.xmis.bunny.platform.PlatformContext
 import org.xmis.bunny.presentation.ui.files.state.FileItem
 
 class FileStorage(private val pathFolder: String) {
