@@ -2,9 +2,11 @@ package org.xmis.bunny.presentation.ui.password
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.ByteString.Companion.toByteString
@@ -17,6 +19,7 @@ import org.xmis.bunny.domain.usecase.password.UpdatePasswordUseCase
 import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.models.PasswordExtended
 import org.xmis.bunny.presentation.ui.password.state.PasswordUiState
+import org.xmis.bunny.presentation.ui.password.state.SideEffect
 import xmis.bunny.krypto.Krypto
 import xmis.bunny.krypto.decrypt
 
@@ -29,6 +32,10 @@ class PasswordViewModel: ViewModel(), KoinComponent {
     private val deletePasswordUseCase: DeletePasswordUseCase by inject()
     private val updatePasswordUseCase: UpdatePasswordUseCase by inject()
     private val krypto: Krypto by inject()
+
+    private val mutableSideEffect = Channel<SideEffect>()
+    val sideEffect = mutableSideEffect.receiveAsFlow()
+
 
     fun insertPassword(passwordData: PasswordData) = viewModelScope.launch {
         try {
@@ -99,7 +106,10 @@ class PasswordViewModel: ViewModel(), KoinComponent {
     fun updatePassword(passwordData: PasswordExtended) = viewModelScope.launch {
         try {
             updatePasswordUseCase.execute(passwordData)
+
+            mutableSideEffect.send(SideEffect.SuccessUpdate)
         } catch (err: Exception) {
+            mutableSideEffect.send(SideEffect.FailUpdate(err.message))
             err.printStackTrace()
         }
     }

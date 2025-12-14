@@ -11,13 +11,6 @@ fun FileListRoute() {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     viewModel.getFiles()
-//    val context = LocalContext.current
-//    val folder = File(context.getExternalFilesDir(null), "MyFolder")
-//    val files = remember { mutableStateOf(emptyList<File>()) }
-//
-//    LaunchedEffect(Unit) {
-//        files.value = loadFilesFromFolder(folder)
-//    }
 
     FileListScreen(uiState)
 }
