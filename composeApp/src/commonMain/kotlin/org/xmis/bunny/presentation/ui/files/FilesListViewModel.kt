@@ -28,14 +28,14 @@ class FilesListViewModel(
     fun getFiles() {
 
         val files: List<PlatformFile> = fileHandler.loadFilesFromFolder()
-        val listFileItems: List<FileItem> = files.map { fileHandler.getFileInfo(file = it) }
+        var listFileItems: List<FileItem> = files.map { fileHandler.getFileInfo(file = it) }
 
+        if (listFileItems[0].fileName == "profileInstalled") listFileItems = listFileItems.drop(1)
         _uiState.update {
             it.copy(filesList = listFileItems)
         }
 
 //        AppLogger.i("msg", files.size.toString())
-//        AppLogger.i("msg", files[0].toString())
 //        AppLogger.i("msg", files[0].toString())
 //        AppLogger.i("msg", files.size.toString())
 //        AppLogger.i("msg", context.getFilesDirPath())
