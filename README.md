@@ -1,4 +1,4 @@
-# BunnyK
+# Bunny (ЗАЙЧИК)
 
 Мобильное приложение для локального хранения паролей и файлов
 
@@ -19,6 +19,8 @@
 * Snackbar
 * DataStore, Tink (in progress)
 * Logger
+* CI (only Android)
+* Git flow
 
 ### Реализованный функционал:
 
