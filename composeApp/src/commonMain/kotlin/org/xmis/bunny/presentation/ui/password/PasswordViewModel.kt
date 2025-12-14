@@ -2,9 +2,11 @@ package org.xmis.bunny.presentation.ui.password
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okio.ByteString.Companion.toByteString
@@ -13,10 +15,11 @@ import org.koin.core.component.inject
 import org.xmis.bunny.domain.usecase.password.DeletePasswordUseCase
 import org.xmis.bunny.domain.usecase.password.GetPasswordsUseCase
 import org.xmis.bunny.domain.usecase.password.InsertPasswordUseCase
+import org.xmis.bunny.domain.usecase.password.UpdatePasswordUseCase
 import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.models.PasswordExtended
 import org.xmis.bunny.presentation.ui.password.state.PasswordUiState
-import xmis.bunny.AppLogger.AppLogger
+import org.xmis.bunny.presentation.ui.password.state.SideEffect
 import xmis.bunny.krypto.Krypto
 import xmis.bunny.krypto.decrypt
 
@@ -27,7 +30,12 @@ class PasswordViewModel: ViewModel(), KoinComponent {
     private val insertPasswordUseCase: InsertPasswordUseCase by inject()
     private val getPasswordsUseCase: GetPasswordsUseCase by inject()
     private val deletePasswordUseCase: DeletePasswordUseCase by inject()
+    private val updatePasswordUseCase: UpdatePasswordUseCase by inject()
     private val krypto: Krypto by inject()
+
+    private val mutableSideEffect = Channel<SideEffect>()
+    val sideEffect = mutableSideEffect.receiveAsFlow()
+
 
     fun insertPassword(passwordData: PasswordData) = viewModelScope.launch {
         try {
@@ -93,5 +101,16 @@ class PasswordViewModel: ViewModel(), KoinComponent {
             err.printStackTrace()
         }
         return ""
+    }
+
+    fun updatePassword(passwordData: PasswordExtended) = viewModelScope.launch {
+        try {
+            updatePasswordUseCase.execute(passwordData)
+
+            mutableSideEffect.send(SideEffect.SuccessUpdate)
+        } catch (err: Exception) {
+            mutableSideEffect.send(SideEffect.FailUpdate(err.message))
+            err.printStackTrace()
+        }
     }
 }

@@ -12,8 +12,10 @@ import org.xmis.bunny.data.storages.sources.PasswordDataSourceImpl
 import org.xmis.bunny.domain.usecase.password.DeletePasswordUseCase
 import org.xmis.bunny.domain.usecase.password.GetPasswordsUseCase
 import org.xmis.bunny.domain.usecase.password.InsertPasswordUseCase
+import org.xmis.bunny.domain.usecase.password.UpdatePasswordUseCase
 import org.xmis.bunny.getPlatform
 import org.xmis.bunny.presentation.ui.password.PasswordViewModel
+import xmis.bunny.di.platformModule
 import xmis.bunny.krypto.Krypto
 
 val passwordModule = module {
@@ -25,6 +27,7 @@ val passwordModule = module {
     singleOf(::DeletePasswordUseCase)
     singleOf(::InsertPasswordUseCase)
     singleOf(::GetPasswordsUseCase)
+    singleOf(::UpdatePasswordUseCase)
 
     viewModelOf(::PasswordViewModel)
 

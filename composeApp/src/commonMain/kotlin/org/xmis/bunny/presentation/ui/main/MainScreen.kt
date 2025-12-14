@@ -42,6 +42,7 @@ import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
 import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.navigation.Destinations
+import org.xmis.bunny.presentation.ui.files.FilesListViewModel
 import org.xmis.bunny.presentation.ui.main.components.AppendPasswordDialog
 import org.xmis.bunny.presentation.ui.password.PasswordViewModel
 import xmis.bunny.AppLogger.AppLogger
@@ -50,19 +51,24 @@ import xmis.bunny.krypto.Krypto
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 @Preview
-fun MainScreen(navController: NavController) {
-    val viewModel = koinViewModel<PasswordViewModel>()
+fun MainScreen(navController: NavController,
+               passwordViewModule: PasswordViewModel,
+               launchUpload: () -> Unit) {
 
     var showDialog by remember { mutableStateOf(false) }
 
+
     fun insertPassword(passwordData: PasswordData) {
-        viewModel.insertPassword(passwordData)
+        passwordViewModule.insertPassword(passwordData)
+    }
+
+    fun uploadFile() {
+        launchUpload()
     }
 
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primaryContainer)
-            .safeContentPadding()
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -73,7 +79,7 @@ fun MainScreen(navController: NavController) {
                     onDismissRequest = { showDialog = false },
                     onConfirmation = { data ->
                         insertPassword(data)
-                        showDialog = false },
+                        showDialog = false }
                 )
                 Image(
                     painter = painterResource(Res.drawable.showpassword),
@@ -118,7 +124,7 @@ fun MainScreen(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.clickable {
                     if (!showDialog) {
-
+                        uploadFile()
                     }
                 }) {
                 Image(
@@ -137,7 +143,7 @@ fun MainScreen(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.clickable {
                     if (!showDialog) {
-
+                        navController.navigate(Destinations.WATCH_FILES)
                     }
                 }) {
                 Image(painter = painterResource(Res.drawable.dverkluchiki),
