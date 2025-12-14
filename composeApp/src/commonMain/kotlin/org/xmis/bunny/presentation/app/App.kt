@@ -24,6 +24,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import bunny.composeapp.generated.resources.Res
 import bunny.composeapp.generated.resources.zaychik
 import bunny.composeapp.generated.resources.compose_multiplatform
+import org.koin.compose.KoinContext
 import org.xmis.bunny.presentation.navigation.Destinations
 import org.xmis.bunny.presentation.navigation.MainNavHost
 
@@ -31,19 +32,21 @@ import org.xmis.bunny.presentation.navigation.MainNavHost
 @Preview
 fun App() {
     MaterialTheme {
-        val navController = rememberNavController()
+        KoinContext {
+            val navController = rememberNavController()
 
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            MainNavHost(navController = navController,
-                startDestination = Destinations.MAIN_ROUTE)
+            var showContent by remember { mutableStateOf(false) }
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .safeContentPadding()
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                MainNavHost(navController = navController,
+                    startDestination = Destinations.MAIN_ROUTE)
+            }
         }
     }
 }

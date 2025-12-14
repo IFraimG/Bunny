@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import org.xmis.bunny.data.storages.databases.PasswordDatabase
 import org.xmis.bunny.data.storages.entities.PasswordEntity
 import org.xmis.bunny.presentation.models.PasswordData
+import org.xmis.bunny.presentation.models.PasswordExtended
 
 class PasswordDataSourceImpl(private val passwordDatabase: PasswordDatabase): PasswordDataSource {
     override suspend fun insert(item: PasswordData) {
@@ -25,5 +26,12 @@ class PasswordDataSourceImpl(private val passwordDatabase: PasswordDatabase): Pa
 
     override suspend fun destroy() {
         passwordDatabase.getDao().destroy()
+    }
+
+    override suspend fun updatePassword(passwordItem: PasswordExtended) {
+        passwordDatabase.getDao().updatePassword(password = passwordItem.password,
+            title = passwordItem.title,
+            id = passwordItem.id,
+            description = passwordItem.description)
     }
 }

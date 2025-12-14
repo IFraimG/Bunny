@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
+import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.models.PasswordExtended
 import org.xmis.bunny.presentation.ui.password.state.PasswordListener
 
@@ -25,6 +26,10 @@ fun PasswordRoute() {
             if (passwordItem != null) {
                 viewModel.deletePassword(passwordItem)
             }
+        }
+
+        override fun changeItem(password: PasswordExtended) {
+            viewModel.updatePassword(password)
         }
     }
 

@@ -13,10 +13,10 @@ import org.koin.core.component.inject
 import org.xmis.bunny.domain.usecase.password.DeletePasswordUseCase
 import org.xmis.bunny.domain.usecase.password.GetPasswordsUseCase
 import org.xmis.bunny.domain.usecase.password.InsertPasswordUseCase
+import org.xmis.bunny.domain.usecase.password.UpdatePasswordUseCase
 import org.xmis.bunny.presentation.models.PasswordData
 import org.xmis.bunny.presentation.models.PasswordExtended
 import org.xmis.bunny.presentation.ui.password.state.PasswordUiState
-import xmis.bunny.AppLogger.AppLogger
 import xmis.bunny.krypto.Krypto
 import xmis.bunny.krypto.decrypt
 
@@ -27,6 +27,7 @@ class PasswordViewModel: ViewModel(), KoinComponent {
     private val insertPasswordUseCase: InsertPasswordUseCase by inject()
     private val getPasswordsUseCase: GetPasswordsUseCase by inject()
     private val deletePasswordUseCase: DeletePasswordUseCase by inject()
+    private val updatePasswordUseCase: UpdatePasswordUseCase by inject()
     private val krypto: Krypto by inject()
 
     fun insertPassword(passwordData: PasswordData) = viewModelScope.launch {
@@ -93,5 +94,13 @@ class PasswordViewModel: ViewModel(), KoinComponent {
             err.printStackTrace()
         }
         return ""
+    }
+
+    fun updatePassword(passwordData: PasswordExtended) = viewModelScope.launch {
+        try {
+            updatePasswordUseCase.execute(passwordData)
+        } catch (err: Exception) {
+            err.printStackTrace()
+        }
     }
 }
