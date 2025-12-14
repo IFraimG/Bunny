@@ -1,16 +1,35 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# BunnyK
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+Мобильное приложение для локального хранения паролей и файлов
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+<img src="https://i.pinimg.com/736x/ba/f9/16/baf9167cafba9903be117e19925036b4.jpg" width="300" align="right" hspace="20">
+
+### Технологии, фреймворки, библиотеки, архитектура, ...
+
+* Kotlin Multiplatform (Support IOS)
+* MVVM
+* Clean Architecture
+* Jetpack Compose
+* Koin (DI)
+* Navigation-Compose
+* Room (SqlLite)
+* ViewModels, ui states, use-cases, repositories, sources
+* Crypto, cipher, keystore, sqlcipher
+* File
+* Snackbar
+* DataStore, Tink (in progress)
+* Logger
+
+### Реализованный функционал:
+
+* Сохранение информации о пароле с зашифрованном виде
+* Получение информации о паролях
+* Просмотр пароля в расшифрованном виде
+* Изменение информации о пароле
+* Удаление паролей
+* Добавление файла в папку приложения (временно) в незашифрованном виде
+* Просмотр информации о файлах (временно) без предварительного просмотра
+
 
 ### Build and Run Android Application
 
@@ -20,10 +39,6 @@ in your IDE’s toolbar or build it directly from the terminal:
   ```shell
   ./gradlew :composeApp:assembleDebug
   ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
 
 ### Build and Run iOS Application
 
@@ -31,5 +46,3 @@ To build and run the development version of the iOS app, use the run configurati
 in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
 
 ---
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
